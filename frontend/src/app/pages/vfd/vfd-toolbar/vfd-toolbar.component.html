@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" class="toolbar-container">
+  Manage VFD
+
+  <div class="spacer"></div>
+  <div class="button-container">
+    <button
+      mat-raised-button
+      class="custom-button"
+      routerLink="/manage-vfd/create-vfd"
+    >
+      <mat-icon>add</mat-icon> Create Directory
+    </button>
+    <button
+      mat-raised-button
+      class="custom-button"
+      routerLink="/manage-vfd/update-vfd"
+    >
+      <mat-icon>edit</mat-icon> Update Directory
+    </button>
+    <button
+      mat-raised-button
+      aria-label="Logout"
+      class="custom-button"
+      routerLink="/manage-vfd/move-vfd"
+    >
+      <mat-icon>move_to_inbox</mat-icon>Move Directory
+    </button>
+    <button
+      mat-raised-button
+      aria-label="Logout"
+      class="custom-button"
+      routerLink="/manage-vfd/delete-vfd"
+    >
+      <mat-icon>delete</mat-icon>Delete Directory
+    </button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,13 @@
+<br />
+<div>
+  <label for="modelSelect">Choose Model</label>
+  <select id="modelSelect" name="model_name" [(ngModel)]="selectedModel">
+    <option
+      *ngFor="let obj of models"
+      [ngValue]="{ modelName: obj.model_name, protocol: obj.protocol }"
+    >
+      {{ obj.model_name }}/Protocol: {{ obj.protocol }}
+    </option>
+  </select>
+</div>
+<button type="submit" (click)="onSubmit()">Delete</button>

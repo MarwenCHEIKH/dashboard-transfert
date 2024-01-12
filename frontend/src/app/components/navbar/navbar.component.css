@@ -1,0 +1,26 @@
+/* Bootstrap Custom Button */
+.custom-button {
+  background-color: transparent !important;
+  border: none !important;
+  cursor: pointer;
+  color: #fff !important;
+}
+
+.custom-button:not(:first-child) {
+  margin-left: 10px; /* Add margin to buttons (except the first one) */
+}
+
+.custom-button:hover,
+.custom-button.clicked {
+  background-color: #007bff;
+  color: white;
+  outline: none;
+}
+.custom-title {
+  font-weight: bold;
+  font-size: large;
+  color: rgb(5, 190, 21);
+  margin-left: 120px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

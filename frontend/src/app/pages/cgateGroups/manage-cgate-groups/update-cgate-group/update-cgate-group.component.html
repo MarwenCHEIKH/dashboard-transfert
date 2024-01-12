@@ -1,0 +1,782 @@
+<form [formGroup]="cGateGroupform" class="container mt-4">
+  <!-- your.component.html -->
+  <div class="button-container">
+    <div class="container mt-4">
+      <div class="btn-group" role="group" aria-label="Tabs">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'general-tab'"
+          (click)="toggleActive('general-tab')"
+        >
+          General
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'output-parameters-tab'"
+          (click)="toggleActive('output-parameters-tab')"
+        >
+          Output Parameters
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'vfd-rights-tab'"
+          (click)="toggleActive('vfd-rights-tab')"
+        >
+          VFD Rights
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'calling-address-controls-tab'"
+          (click)="toggleActive('calling-address-controls-tab')"
+        >
+          Calling Address Controls
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- general-tab -->
+  <div *ngIf="activeTab === 'general-tab'">
+    <div class="row align-items-end">
+      <!-- Name Input -->
+      <div class="col-md-6 mb-3 mt-4">
+        <label for="name">Name:</label>
+        <select
+          id="name"
+          formControlName="name"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let cGateGroup of cGateGroups" [value]="cGateGroup">
+            {{ cGateGroup }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3 mt-4">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onDelete()"
+          [disabled]="!cGateGroupform.valid"
+        >
+          delete cGateGroup
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="comments">Comments:</label>
+        <input
+          type="textArea"
+          id="comments"
+          formControlName="comments"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="parent_cgateGroup">Parent CgateGroup:</label>
+        <select
+          id="parent_cgateGroup"
+          formControlName="parent_cgateGroup"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let cGateGroup of cGateGroups" [value]="cGateGroup">
+            {{ cGateGroup }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="state">State</label>
+        <select
+          id="state"
+          formControlName="state"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="E">Enabled</option>
+          <option value="D">Disabled</option>
+          <option value="U">Undefined</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="protocol">protocol</label>
+        <select
+          id="protocol"
+          formControlName="protocol"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="FTP ">FTP</option>
+          <option value="HTTP">HTTP</option>
+          <option value="FTP_HTTP">FTP+HTTP</option>
+          <option value="PHSE">PeSIT HS E</option>
+          <option value="PHSD">PeSIT HS D</option>
+          <option value="ODETTE">OFTP</option>
+          <option value="PEL">PEL</option>
+          <option value="AS2">AS2</option>
+          <option value="AS3">AS3</option>
+          <option value="SFTP">SFTP</option>
+          <option value="ETEBAC3">ETEBAC3</option>
+          <option value="ETEBAC5v1">ETEBAC5v1</option>
+          <option value="ETEBAC5v2">ETEBAC5v2</option>
+          <option value="RN_HTTP">RN_HTTP</option>
+          <option value="*">undefined</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="called_address">Called Address</label>
+        <input
+          type="text"
+          id="called_address"
+          formControlName="called_address"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="called_sap">Called SAP</label>
+        <input
+          type="text"
+          id="called_sap"
+          formControlName="called_sap"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="HTTP_hostname">HTTP host name</label>
+        <input
+          type="text"
+          id="HTTP_hostname"
+          formControlName="HTTP_hostname"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="template_site">Template Site</label>
+        <input
+          type="text"
+          id="template_site"
+          formControlName="template_site"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+  <!-- output-parameters-tab -->
+  <div *ngIf="activeTab === 'output-parameters-tab'">
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-4 mb-3 mt-4">
+          <label for="root_dir">Root directory</label>
+          <input
+            type="text"
+            id="root_dir"
+            formControlName="root_dir"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="home_dir">Home directory</label>
+          <input
+            type="text"
+            id="home_dir"
+            formControlName="home_dir"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="usr_params">User Parameters:</label>
+        <div class="col-md-4 mb-3">
+          <label for="usr_param1" class="d-block mt-2">Param 1</label>
+          <input
+            type="text"
+            id="usr_param1"
+            formControlName="usr_param1"
+            class="form-control mb-2"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="usr_param2" class="d-block mt-2">Param 2</label>
+          <input
+            type="text"
+            id="usr_param2"
+            formControlName="usr_param2"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="http_specific">HTTP scpecific:</label>
+        <div class="col-md-4 mb-3">
+          <label for="http_home_page" class="d-block mt-2"
+            >HTTP Home Page</label
+          >
+          <input
+            type="text"
+            id="http_home_page"
+            formControlName="http_home_page"
+            class="form-control mb-2"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="http_list_template" class="d-block mt-2"
+            >HTTP List Template</label
+          >
+          <input
+            type="text"
+            id="http_list_template"
+            formControlName="http_list_template"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="ftp_sftp_quotas" class="col-md-4 mb-3"
+          >FTP/SFTP quotas:</label
+        >
+      </div>
+
+      <div class="row">
+        <div class="col-md-1 mb-3">
+          <label for="maximum_uploads" class="d-block mt-1" s
+            >Maximum uploads</label
+          >
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="KB/min"
+            formControlName="max_upload_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="KB/min" class="d-block mt-1">KB/min</label>
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="Requests/min"
+            formControlName="max_upload_requests_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="Requests/min" class="d-block mt-1">Requests/min</label>
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="MB"
+            formControlName="max_upload_file_size"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="MB" class="d-block mt-1">MB</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1 mb-3">
+          <label for="maximum_downloads" class="d-block mt-1" s
+            >Maximum downloads</label
+          >
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="KB/min"
+            formControlName="max_download_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="KB/min" class="d-block mt-1">KB/min</label>
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="Requests/min"
+            formControlName="max_download_requests_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="Requests/min" class="d-block mt-1">Requests/min</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="command_sensitivity">Command Sensitivity</label>
+          <input
+            type="range"
+            class="form-range"
+            min="0"
+            max="5"
+            id="customRange2"
+            formControlName="command_sensitivity"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- vfd-rights-tab -->
+  <div *ngIf="activeTab === 'vfd-rights-tab'">
+    <div class="mt-4">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          font-weight: bold;
+          padding: 5px 0;
+        "
+      >
+        <span class="custom-span" style="width: 10%">Select</span>
+        <span class="custom-span" style="width: 15%">VFD directory path</span>
+        <span class="custom-span" style="width: 15%">VFD file pattern</span>
+        <span class="custom-span" style="width: 15%">VFD directory rights</span>
+        <span class="custom-span" style="width: 15%">VFD file rights</span>
+        <span class="custom-span" style="width: 15%"
+          >Subdirectory inheritance</span
+        >
+      </div>
+      <ul
+        id="selectedVfdList"
+        class="form-control"
+        style="
+          min-height: 170px;
+          border: 1px solid #ccc;
+          padding: 10px;
+          overflow-y: auto;
+          max-height: 350px;
+          list-style-type: none;
+        "
+      >
+        <li
+          *ngFor="let value of enteredVfdValues"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+          "
+        >
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange(value)"
+            style="width: 10%"
+          />
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.dir_path || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.file_pattern || "-" }}
+          </span>
+
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.dir_rights || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.file_rights || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.subdir_inheritance || "-" }}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div style="margin-top: 10px">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-right: 10px"
+        (click)="displayValues('vfd_rights')"
+      >
+        Add
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="removeValues('vfd_rights')"
+        style="margin-right: 10px"
+        [disabled]="this.selectedItems.length === 0"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="clearList('vfd_rights')"
+        [disabled]="this.enteredVfdValues.length === 0"
+      >
+        Clear
+      </button>
+    </div>
+
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-6 mb-3 mt-4">
+          <div class="row mb-2">
+            <label for="VFD_rights" class="mb-2">VFD rights:</label>
+          </div>
+
+          <label for="dir_path">Directory Path</label>
+          <input
+            type="text"
+            class="form-control"
+            id="dir_path"
+            formControlName="dir_path"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="file_pattern">File Pattern</label>
+          <input
+            type="text"
+            class="form-control"
+            id="file_pattern"
+            formControlName="file_pattern"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">General Information</label>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="subdir_inheritance"
+                    >Subdirectory Inheritance</label
+                  >
+                </div>
+                <div class="col-md-1 mb-3">
+                  <input
+                    type="checkbox"
+                    class="form-check"
+                    id="subdir_inheritance"
+                    formControlName="subdir_inheritance"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">Directory Rights</label>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_list"
+                  formControlName="dir_rights_list"
+                />
+                <label for="dir_rights_list" class="form-check-label"
+                  >List</label
+                >
+              </div>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_create"
+                  formControlName="dir_rights_create"
+                />
+                <label for="dir_rights_create" class="form-check-label"
+                  >Create</label
+                >
+              </div>
+
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_remove"
+                  formControlName="dir_rights_remove"
+                />
+                <label for="dir_rights_remove" class="form-check-label"
+                  >Remove</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">File Rights</label>
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_read"
+                  formControlName="file_rights_read"
+                />
+                <label for="file_rights_read" class="form-check-label"
+                  >Read</label
+                >
+              </div>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_delete"
+                  formControlName="file_rights_delete"
+                />
+                <label for="file_rights_delete" class="form-check-label"
+                  >Delete</label
+                >
+              </div>
+
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_write"
+                  formControlName="file_rights_write"
+                />
+                <label for="file_rights_write" class="form-check-label"
+                  >Write</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- calling-address-controls-tab -->
+  <div *ngIf="activeTab === 'calling-address-controls-tab'">
+    <div class="mt-4">
+      <ul
+        id="calling_address"
+        class="form-control"
+        style="
+          min-height: 170px;
+          border: 1px solid #ccc;
+          padding: 10px;
+          overflow-y: auto;
+          max-height: 350px;
+          list-style-type: none;
+        "
+      >
+        <li
+          style="
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 0;
+          "
+        >
+          <span class="custom-span" style="width: 10%">Select</span>
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+            >Calling address</span
+          >
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+            >Access</span
+          >
+        </li>
+        <li
+          *ngFor="let value of enteredCallingAddressValues"
+          style="display: flex; align-items: center; padding: 5px 0"
+        >
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange(value)"
+            style="width: 10%"
+          />
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+          >
+            {{ value.calling_address_pattern || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+          >
+            {{ value.access || "-" }}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3 mt-3">
+        <label for="calling_address_pattern">Calling address pattern </label>
+        <input
+          type="text"
+          class="form-control"
+          id="calling_address_pattern"
+          formControlName="calling_address_pattern"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="access">Access allowed</label>
+
+        <div class="col-md-1 mb-3">
+          <input
+            type="checkbox"
+            class="form-check"
+            id="access"
+            formControlName="access"
+          />
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 10px">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-right: 10px"
+        (click)="displayValues('calling_address')"
+      >
+        Add
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="removeValues('calling_address')"
+        style="margin-right: 10px"
+        [disabled]="this.selectedItems.length === 0"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="clearList('calling_address')"
+        [disabled]="this.enteredCallingAddressValues.length === 0"
+      >
+        Clear
+      </button>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+    style="margin-left: 50px; margin-top: 30px; margin-bottom: 20px; width: 25%"
+    [disabled]="!cGateGroupform.valid"
+  >
+    Save
+  </button>
+</form>

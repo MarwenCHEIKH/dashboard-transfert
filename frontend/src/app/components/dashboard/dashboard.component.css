@@ -1,0 +1,44 @@
+.custom-card {
+  width: 40rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.custom-label {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.custom-button {
+  margin-top: 20px;
+}
+.title {
+  color: rgb(5, 190, 21);
+  font-weight: bold;
+  white-space: nowrap;
+  margin-bottom: -10px;
+}
+.custom-fileInput {
+  margin-top: 33px;
+  margin-left: -10px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Adjust alignment based on your design */
+}
+
+.wrapper {
+  width: 100rem;
+  margin-bottom: 20px;
+  margin-left: 12px;
+}
+.custom-table {
+  width: 600px;
+}
+.title-container {
+  display: flex;
+
+  /* Adjust alignment based on your design */
+}

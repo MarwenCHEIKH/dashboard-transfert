@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="toolbar-container">
+  Dashboard
+
+  <div class="spacer"></div>
+  <div class="button-container">
+    <button
+      mat-raised-button
+      class="custom-button"
+      routerLink="/login"
+      *ngIf="isLoginOrRegisterRoute()"
+    >
+      <mat-icon>person</mat-icon> Login
+    </button>
+    <button
+      mat-raised-button
+      class="custom-button"
+      routerLink="/register"
+      *ngIf="isLoginOrRegisterRoute()"
+    >
+      <mat-icon>person_add</mat-icon> Register
+    </button>
+    <button
+      mat-raised-button
+      aria-label="Logout"
+      class="custom-button"
+      *ngIf="isLoggedIn()"
+      routerLink="/login"
+      (click)="logout()"
+    >
+      <mat-icon>exit_to_app</mat-icon>Logout
+    </button>
+  </div>
+</mat-toolbar>

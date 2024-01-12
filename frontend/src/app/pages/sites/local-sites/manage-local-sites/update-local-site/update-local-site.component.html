@@ -1,0 +1,186 @@
+<form [formGroup]="siteForm" class="container mt-4">
+  <div class="button-container">
+    <div class="container mt-4">
+      <div class="btn-group" role="group" aria-label="Tabs">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'general-tab'"
+          (click)="toggleActive('general-tab')"
+        >
+          General
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'user-parameters-tab'"
+          (click)="toggleActive('user-parameters-tab')"
+        >
+          User Parameters
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'authentication-certificate'"
+          (click)="toggleActive('authentication-certificate')"
+        >
+          Authentication certificate
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- general-tab -->
+  <div *ngIf="activeTab === 'general-tab'">
+    <div class="row align-items-end">
+      <div class="col-md-6 mb-3 mt-4">
+        <label for="alias">Alias:</label>
+        <select
+          id="alias"
+          formControlName="alias"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let locSite of locSites" [value]="locSite">
+            {{ locSite }}
+          </option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="onDelete()"
+            [disabled]="!siteForm.valid"
+          >
+            delete Site
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="protocol_id">Protocol identifier:</label>
+        <input
+          type="textArea"
+          id="protocol_id"
+          formControlName="proto_ident"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="comments">Comments:</label>
+        <input
+          type="textArea"
+          id="comments"
+          formControlName="comments"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="default_email_address">Default Email Address:</label>
+        <input
+          type="textArea"
+          id="default_email_address"
+          formControlName="mail_address"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="directory_for_received_files"
+          >Directory for received files:</label
+        >
+        <input
+          type="textArea"
+          id="directory_for_received_files"
+          formControlName="dir_path"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+  <!-- user-parameters-tab -->
+  <div *ngIf="activeTab === 'user-parameters-tab'">
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-4 mb-3 mt-4">
+          <label for="usr_params">User Parameters:</label>
+          <label for="usr_param1" class="d-block mt-2">Param 1</label>
+          <input
+            type="text"
+            id="usr_param1"
+            formControlName="usr_param1"
+            class="form-control mb-2"
+          />
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="usr_param2" class="d-block mt-2">Param 2</label>
+            <input
+              type="text"
+              id="usr_param2"
+              formControlName="usr_param2"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Authentication Certificate -->
+  <div *ngIf="activeTab === 'authentication-certificate'">
+    <div class="row">
+      <div class="col-md-4 mb-3 mt-4">
+        <label for="type">Type</label>
+        <select
+          id="type"
+          formControlName="auth_obj_type"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="SECS_ALIAS">SEC ALIAS</option>
+          <option value="XPP_ENTITY">Passport PS entity</option>
+          <option value="XPP_CERTIFICATE">Passport PS certificate</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="name" class="d-block mt-2">Name</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="auth_obj_name"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="password" class="d-block mt-2">Password</label>
+        <input
+          type="text"
+          id="password"
+          formControlName="password"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+    style="margin-left: 50px; margin-top: 30px; margin-bottom: 20px; width: 25%"
+    [disabled]="!siteForm.valid"
+  >
+    Update site
+  </button>
+</form>

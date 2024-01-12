@@ -1,0 +1,99 @@
+<!-- Bootstrap Toolbar with ngx-bootstrap -->
+<nav
+  class="navbar navbar-expand-lg navbar-light"
+  style="background-color: rgb(112, 1, 156)"
+>
+  <div class="container">
+    <span class="navbar-brand text-white">Manage sites</span>
+
+    <!-- Button Group for Both Dropdowns -->
+    <div class="btn-group ml-auto">
+      <!-- Create Site Dropdown -->
+      <div
+        dropdown
+        #createDropdown="bs-dropdown"
+        [autoClose]="true"
+        placement="bottom"
+      >
+        <button
+          type="button"
+          dropdownToggle
+          class="btn btn-light dropdown-toggle custom-button"
+          aria-controls="dropdown-create"
+          id="button-create"
+          style="margin-right: 8px"
+        >
+          <i class="bi bi-plus"></i> Create Site <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-create"
+          *dropdownMenu
+          class="dropdown-menu"
+          role="menu"
+          aria-labelledby="button-create"
+        >
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              [routerLink]="['/manage-sites/create-localSite']"
+            >
+              <i class="bi bi-box"></i> Create Local Site
+            </a>
+          </li>
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              [routerLink]="['/manage-sites/create-remoteSite']"
+            >
+              <i class="bi bi-cloud-plus"></i> Create Remote Site
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Update Site Dropdown -->
+      <div
+        dropdown
+        class="dropdown d-inline-block"
+        #updateDropdown="bs-dropdown"
+        [autoClose]="true"
+        placement="bottom-right"
+      >
+        <button
+          type="button"
+          dropdownToggle
+          class="btn btn-light dropdown-toggle custom-button"
+          aria-controls="dropdown-update"
+          id="button-update"
+          style="margin-right: 8px"
+        >
+          <i class="bi bi-pencil"></i> Update Site <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-update"
+          *dropdownMenu
+          class="dropdown-menu"
+          role="menu"
+          aria-labelledby="button-update"
+        >
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              [routerLink]="['/manage-sites/update-localSite']"
+            >
+              <i class="bi bi-box"></i> Update Local Site
+            </a>
+          </li>
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              [routerLink]="['/manage-sites/update-remoteSite']"
+            >
+              <i class="bi bi-cloud"></i> Update Remote Site
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ rule.rd_name }} Details</h4>
+  <button type="button" class="close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>Name:</strong> {{ rule.rd_name }}</p>
+  <p>
+    <strong>Type of Decision Rule:</strong> {{ rule.rd_type_of_decisionrules }}
+  </p>
+  <p><strong>Comments:</strong> {{ rule.rd_comments }}</p>
+  <p><strong>Execution Type:</strong> {{ rule.rd_execution_type }}</p>
+  <p><strong>Linked:</strong> {{ rule.rd_link_transfers }}</p>
+  <p><strong>Model:</strong> {{ rule.rd_model }}</p>
+  <p><strong>Expression:</strong> {{ rule.rd_expression }}</p>
+  <p><strong>property list name:</strong> {{ rule.rd_prop_list_name }}</p>
+  <p><strong>Perl Script:</strong> {{ rule.rd_perl_script }}</p>
+  <p><strong>Command Line:</strong> {{ rule.rd_command_line }}</p>
+  <p>
+    <strong>XMS Connector Out Name:</strong>
+    {{ rule.rd_xms_connector_out_name }}
+  </p>
+  <p><strong>Purge Model:</strong> {{ rule.rd_purge_model }}</p>
+  <div *ngFor="let condition of getConditions(rule)">
+    <p>
+      <strong>Condition {{ condition.index }}:</strong>
+      {{ condition.value }}
+    </p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">
+    Close
+  </button>
+</div>

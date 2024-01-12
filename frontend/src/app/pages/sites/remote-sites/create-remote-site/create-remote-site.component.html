@@ -1,0 +1,455 @@
+<form [formGroup]="siteForm" class="container mt-4">
+  <!-- your.component.html -->
+  <div class="button-container">
+    <div class="container mt-4">
+      <div class="btn-group" role="group" aria-label="Tabs">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'general-tab'"
+          (click)="toggleActive('general-tab')"
+        >
+          General
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'options-tab'"
+          (click)="toggleActive('options-tab')"
+        >
+          Options
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'authentication-certificate'"
+          (click)="toggleActive('authentication-certificate')"
+        >
+          Authentication certificate
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- general-tab -->
+  <div *ngIf="activeTab === 'general-tab'">
+    <div class="row align-items-end">
+      <!-- Name Input -->
+      <div class="col-md-6 mb-3 mt-4">
+        <label for="aLias">ALias:</label>
+        <input
+          type="text"
+          id="alias"
+          formControlName="alias"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="protocol">Protocol</label>
+        <select
+          id="protocol"
+          formControlName="protocol"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="FTP">FTP</option>
+          <option value="SFTP">SFTP</option>
+          <option value="PeSIT">PeSIT</option>
+          <option value="HTTP">HTTP</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="protocol_id">Protocol identifier:</label>
+        <input
+          type="textArea"
+          id="protocol_id"
+          formControlName="proto_ident"
+          class="form-control"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="group">Group Name:</label>
+        <input
+          type="textArea"
+          id="group"
+          formControlName="group"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="username">Transfer Owner:</label>
+        <input
+          type="textArea"
+          id="username"
+          formControlName="username"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="partner_loc_alias">Partner Local Alias:</label>
+        <input
+          type="textArea"
+          id="partner_loc_alias"
+          formControlName="partner_loc_alias"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="comments">Comments:</label>
+        <input
+          type="textArea"
+          id="comments"
+          formControlName="comments"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="dir_path">Directory for received files:</label>
+        <input
+          type="textArea"
+          id="dir_path"
+          formControlName="dir_path"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <label class="card-title">Role</label>
+
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="init_sender"
+                    formControlName="init_sender"
+                  />
+                  <label for="init_sender" class="form-check-label"
+                    >Initiator/Sender</label
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="resp_sender"
+                    formControlName="resp_sender"
+                  />
+                  <label for="resp_sender" class="form-check-label"
+                    >Responder/Sender</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="init_receiver"
+                    formControlName="init_receiver"
+                  />
+                  <label for="init_receiver" class="form-check-label"
+                    >Initiator/Receiver</label
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="resp_receiver"
+                    formControlName="resp_receiver"
+                  />
+                  <label for="resp_receiver" class="form-check-label"
+                    >Responder/Receiver</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <label class="card-title">Initialization Mode</label>
+
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="init_mode"
+                    formControlName="init_mode"
+                  />
+                  <label for="init_mode" class="form-check-label"
+                    >Initiating Site</label
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="trace_mode"
+                    formControlName="trace_mode"
+                  />
+                  <label for="trace_mode" class="form-check-label">Trace</label>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="resp_mode"
+                    formControlName="resp_mode"
+                  />
+                  <label for="resp_mode" class="form-check-label"
+                    >Responding Site</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- options-tab -->
+  <div *ngIf="activeTab === 'options-tab'">
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-4 mb-3 mt-4">
+          <label for="data_size_max" class="d-block mt-2"
+            >Maximum data block size:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3 mt-4">
+          <input
+            type="text"
+            id="data_size_max"
+            formControlName="data_size_max"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="init_conn_max" class="d-block mt-2"
+            >Maximum number of simultaneous connections to this Site:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="init_conn_max"
+            formControlName="init_conn_max"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="init_conn_count" class="d-block mt-2"
+            >Maximum number of simultaneous connections from this Site:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="init_conn_count"
+            formControlName="init_conn_count"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="retry_count_max" class="d-block mt-2"
+            >Maximum number of connection retries before time limit:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="retry_count_max"
+            formControlName="retry_count_max"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="retry_delay_min" class="d-block mt-2"
+            >Time before first retry:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="retry_delay_min"
+            formControlName="retry_delay_min"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="retry_delay_max" class="d-block mt-2"
+            >Maximum interval between retries:</label
+          >
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="retry_delay_max"
+            formControlName="retry_delay_max"
+            class="form-control mb-2"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label
+            for="sentinel_transfer_filter sentinel_transfer_filter"
+            class="d-block mt-2"
+            >Sentinel Transfer filter</label
+          >
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <select
+            id="type"
+            formControlName="sentinel_transfer_filter"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="ALL">All</option>
+            <option value="SUMMARY">Summary</option>
+            <option value="NONE">None</option>
+            <option value="UNDEFINED">Undefined</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Authentication Certificate -->
+  <div *ngIf="activeTab === 'authentication-certificate'">
+    <div class="row">
+      <div class="col-md-4 mb-3 mt-4">
+        <label for="commpath_used" style="margin-bottom: 10px">Address:</label>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="commpath_used_MAIN"
+            formControlName="commpath_used"
+            value="MAIN"
+            checked
+          />
+          <label class="form-check-label" for="commpath_used_MAIN"
+            >Main address</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="commpath_used_ALT1"
+            formControlName="commpath_used"
+            value="ALT1"
+          />
+          <label class="form-check-label" for="commpath_used_ALT1"
+            >Alternative address N°1</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="commpath_used_ALT2"
+            formControlName="commpath_used"
+            value="ALT2"
+          />
+          <label class="form-check-label" for="commpath_used_ALT2"
+            >Alternative address N°2</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="commpath_used_ALT3"
+            formControlName="commpath_used"
+            value="ALT3"
+          />
+          <label class="form-check-label" for="commpath_used_ALT3"
+            >Alternative address N°3</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 mb-3">
+        <label for="comm_type" class="d-block mt-2">Network type</label>
+        <select
+          id="type"
+          formControlName="comm_type"
+          class="form-select"
+          data-live-search="true"
+          style="margin-top: 10px"
+        >
+          <option value="TCPIP">TCPIP</option>
+          <option value="PAD">PAD</option>
+          <option value="LU62">LU62</option>
+          <option value="DSA">DSA</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+    style="margin-left: 50px; margin-top: 30px; margin-bottom: 20px; width: 25%"
+    [disabled]="!siteForm.valid"
+  >
+    Create site
+  </button>
+</form>

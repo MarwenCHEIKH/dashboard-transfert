@@ -1,0 +1,20 @@
+.btn-group .btn.active {
+  border: 3px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+.table-container {
+  max-height: 300px; /* Adjust the max height according to your needs */
+  overflow-y: auto;
+}
+.rule {
+  cursor: pointer;
+}
+
+.rule-container {
+  min-height: 100px;
+  max-height: 100px;
+  overflow-y: auto;
+}

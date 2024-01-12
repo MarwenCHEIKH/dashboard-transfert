@@ -1,0 +1,268 @@
+<h1>Create a new Model</h1>
+<button (click)="showGeneralForm()">Create General Model</button>
+
+<button (click)="showProtocolForm()">Create Protocol Model</button>
+<br />
+<br />
+<!-- General model fields -->
+<form [formGroup]="modelForm" (ngSubmit)="onSubmit()" *ngIf="showGeneralModel">
+  <div>
+    <label for="model_name">Name</label>
+    <input type="text" id="model_name" formControlName="model_name" />
+  </div>
+  <div>
+    <label for="comments">Comments</label>
+    <input type="text" id="comments" formControlName="comments" />
+  </div>
+
+  <div>
+    <label for="destAlias">Destination Alias</label>
+    <input type="text" id="destAlias" formControlName="destAlias" />
+  </div>
+
+  <div>
+    <label for="orgAlias">Organization Alias</label>
+    <input type="text" id="orgAlias" formControlName="orgAlias" />
+  </div>
+
+  <div>
+    <label for="remoteAgent">Remote Agent</label>
+    <input type="text" id="remoteAgent" formControlName="remoteAgent" />
+  </div>
+
+  <div>
+    <label for="localAgent">Local Agent</label>
+    <input type="text" id="localAgent" formControlName="localAgent" />
+  </div>
+  <div>
+    <label for="direction">Direction</label>
+    <select id="direction" formControlName="direction">
+      <option value="I">Input</option>
+      <option value="O">Output</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="type">Type</label>
+    <select id="type" formControlName="type">
+      <option value="TRANS">TRANS</option>
+      <option value="LOTS">LOTS</option>
+      <option value="POLL">POLL</option>
+      <option value="LIST">LIST</option>
+      <option value="EERP">EERP</option>
+      <option value="SELECT">SELECT</option>
+      <option value="MSG">MSG</option>
+      <option value="DIR">DIR</option>
+      <option value="RECEIPT">RECEIPT</option>
+      <option value="NLSTMULTI">NLSTMULTI</option>
+    </select>
+  </div>
+  <div>
+    <label for="appli">Application</label>
+    <input type="text" id="appli" formControlName="appli" />
+  </div>
+  <div>
+    <label for="fileComponent">File Component</label>
+    <input type="text" id="fileComponent" formControlName="fileComponent" />
+  </div>
+
+  <div>
+    <label for="sendMessage">Send Message</label>
+    <input type="text" id="sendMessage" formControlName="sendMessage" />
+  </div>
+
+  <div>
+    <label for="compression">Compression</label>
+    <select id="compression" formControlName="compression">
+      <option value="U">U</option>
+      <option value="H">H</option>
+      <option value="V">V</option>
+      <option value="B">B</option>
+      <option value="Z">Z</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="mode">Mode</label>
+    <select id="mode" formControlName="mode">
+      <option value="I">Input</option>
+      <option value="R">Output</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Priority:</label>
+    <br />
+    <input type="radio" id="priority" formControlName="priority" value="2" />
+    <label for="2">2 </label>
+    <br />
+    <input type="radio" id="priority" formControlName="priority" value="1" />
+    <label for="1">1 </label>
+    <br />
+    <input type="radio" id="priority" formControlName="priority" value="0" />
+    <label for="0">0 </label>
+  </div>
+
+  <div>
+    <label for="fileOrganization">File Organization</label>
+    <select id="fileOrganization" formControlName="fileOrganization">
+      <option value="U">U</option>
+      <option value="S">S</option>
+      <option value="I">I</option>
+      <option value="R">R</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="retryCountMax">Retry Count Max</label>
+    <input type="text" id="retryCountMax" formControlName="retryCountMax" />
+  </div>
+
+  <div>
+    <label for="blockSize">Block Size</label>
+    <input type="text" id="blockSize" formControlName="blockSize" />
+  </div>
+
+  <div>
+    <label for="fileName">File Name</label>
+    <input type="text" id="fileName" formControlName="fileName" />
+  </div>
+
+  <div>
+    <label for="purgeOption">Purge Option</label>
+    <select id="purgeOption" formControlName="purgeOption">
+      <option value="Y">Yes</option>
+      <option value="N">No</option>
+    </select>
+  </div>
+
+  <label>Environnement:</label>
+  <input type="radio" id="envUAT" formControlName="env" value="UAT" checked />
+  <label for="envUAT">UAT</label>
+  <input
+    type="radio"
+    id="envProduction"
+    formControlName="env"
+    value="Production"
+  />
+  <label for="envProduction">Production</label>
+  <br />
+  <br />
+  <button type="submit" [disabled]="modelForm.invalid">Create Model</button>
+</form>
+
+<!-- protocol model form -->
+<form *ngIf="showProtocolModel">
+  <label for="modelSelect">Choose Model</label>
+  <select id="modelSelect" name="modelSelect" [(ngModel)]="selectedModel">
+    <option *ngFor="let model of generalModels" [value]="model">
+      {{ model }}
+    </option>
+  </select>
+  <br />
+
+  <label for="protocol">Select protocol</label>
+  <select id="protocol" name="protocol" [(ngModel)]="selectedProtocol">
+    <option value="FTP">FTP</option>
+    <option value="SFTP">SFTP</option>
+    <option value="HTTP">HTTP</option>
+    <option value="PHSE">PHSE</option>
+  </select>
+  <br />
+
+  <!-- FTP options form -->
+  <div *ngIf="selectedProtocol == 'FTP'">
+    <form [formGroup]="FTPOptions">
+      <div>
+        <label for="localSite">Local Site</label>
+        <input type="text" id="localSite" formControlName="localSite" />
+      </div>
+
+      <div>
+        <label for="ftpCommand">FTP Command</label>
+        <input type="text" id="ftpCommand" formControlName="ftpCommand" />
+      </div>
+
+      <div>
+        <label for="dirName">Directory Name</label>
+        <input type="text" id="dirName" formControlName="dirName" />
+      </div>
+    </form>
+  </div>
+  <!-- HTTP options form -->
+  <div *ngIf="selectedProtocol == 'HTTP'">
+    <form [formGroup]="HTTPOptions">
+      <div>
+        <label for="ftpCommand">FTP Command</label>
+        <input type="text" id="ftpCommand" formControlName="ftpCommand" />
+      </div>
+
+      <div>
+        <label for="dirName">Directory Name</label>
+        <input type="text" id="dirName" formControlName="dirName" />
+      </div>
+    </form>
+  </div>
+  <br />
+
+  <!-- SFTP options form -->
+  <div *ngIf="selectedProtocol == 'SFTP'">
+    <form [formGroup]="SFTPOptions">
+      <div>
+        <label for="ftpCommand">FTP Command</label>
+        <input type="text" id="ftpCommand" formControlName="ftpCommand" />
+      </div>
+    </form>
+  </div>
+  <br />
+
+  <!-- PHSE options form -->
+  <div *ngIf="selectedProtocol == 'PHSE'">
+    <form [formGroup]="PHSEOptions">
+      <!-- Receiver Application -->
+      <div>
+        <label for="rcvAppli">Receiver Application:</label>
+        <input
+          type="text"
+          id="rcvAppli"
+          formControlName="rcvAppli"
+          maxlength="8"
+          pattern="[a-zA-Z0-9]+"
+          required
+        />
+      </div>
+
+      <!-- Receiver Text -->
+      <div>
+        <label for="rcvText">Receiver Text:</label>
+        <input
+          type="text"
+          id="rcvText"
+          formControlName="rcvText"
+          maxlength="8"
+          pattern="[a-zA-Z0-9]+"
+          required
+        />
+      </div>
+
+      <!-- Receiver User -->
+      <div>
+        <label for="rcvUser">Receiver User:</label>
+        <input
+          type="text"
+          id="rcvUser"
+          formControlName="rcvUser"
+          maxlength="8"
+          pattern="[a-zA-Z0-9]+"
+          required
+        />
+      </div>
+    </form>
+  </div>
+  <br />
+
+  <button type="submit" (click)="createProtocolModel()">
+    Create Protocol Model
+  </button>
+  <!-- Additional Protocol Model Form Fields... -->
+</form>

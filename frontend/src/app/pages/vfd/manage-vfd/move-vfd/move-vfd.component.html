@@ -1,0 +1,31 @@
+<h1>Move a Directory</h1>
+
+<label for="objectSelect">Select a directory:</label>
+<select id="objectSelect" [(ngModel)]="selectedDirectory">
+  <option *ngFor="let obj of directories" [value]="obj.dir_path">
+    "{{ obj.alias }}": {{ obj.dir_path }}
+  </option>
+</select>
+<form [formGroup]="moveDirectoryForm" (ngSubmit)="onSubmit()">
+  <br />
+
+  <label for="new_dir_path"
+    >Enter the new absolute path of the directory.</label
+  >
+  <br />
+  <input
+    type="text"
+    id="new_dir_path"
+    formControlName="new_dir_path"
+    required
+  />
+  <br />
+  <label>Environment:</label>
+  <input type="radio" id="env" formControlName="env" value="UAT" checked />
+  <label for="env">UAT</label>
+  <input type="radio" id="env" formControlName="env" value="Production" />
+  <label for="env">Production</label>
+  <br />
+  <br />
+  <button type="submit">Move</button>
+</form>

@@ -1,0 +1,115 @@
+<head>
+  <title>Update Directory</title>
+</head>
+
+<h1>Update a VFD</h1>
+<label for="objectSelect">Select a directory:</label>
+<select id="objectSelect" [(ngModel)]="selectedDirectory">
+  <option *ngFor="let obj of directories" [value]="obj.dir_path">
+    "{{ obj.alias }}": {{ obj.dir_path }}
+  </option>
+</select>
+
+<p>Selected Directory: {{ selectedDirectory }}</p>
+<form [formGroup]="updateDirectoryForm" (ngSubmit)="onSubmit()">
+  <label for="new_alias"
+    >Enter a new directory name for the updated directory.</label
+  >
+  <br />
+  <input type="text" id="new_alias" formControlName="new_alias" />
+  <br />
+
+  <label for="comments"
+    >Enter a comment about the VFD directory. (Maximum: 80 alphanumeric
+    characters.)</label
+  >
+  <br />
+  <textarea id="comments" formControlName="comments"></textarea>
+  <br />
+
+  <label for="mount_point"
+    >Enter a value to determine whether or not to mount the current
+    directory:</label
+  >
+  <input type="checkbox" id="mount_point" formControlName="mount_point" />
+  <br />
+
+  <label for="mount_dir_path"
+    >Enter the absolute path of the physical directory (RFD) to be
+    mounted.</label
+  >
+  <input type="text" id="mount_dir_path" formControlName="mount_dir_path" />
+  <br />
+
+  <label for="user_attribute"
+    >Enter a user parameter associated with the current directory.</label
+  >
+  <input type="text" id="user_attribute" formControlName="user_attribute" />
+  <br />
+
+  <label>In RFD mode only, enter the Gateway Mailbox recording option.</label>
+  <br />
+  <input
+    type="radio"
+    id="mr_yes"
+    formControlName="mailbox_recording"
+    value="Y"
+  />
+  <label for="mr_yes">Yes</label>
+  <input
+    type="radio"
+    id="mr_no"
+    formControlName="mailbox_recording"
+    value="N"
+  />
+  <label for="mr_no">No</label>
+  <br />
+
+  <label for="filename_display_option"
+    >Enter a value to indicate how file names are displayed</label
+  >
+  <br />
+  <select
+    id="filename_display_option"
+    formControlName="filename_display_option"
+  >
+    <option value="XFB">XFB</option>
+    <option value="Standard">Standard</option>
+  </select>
+  <br />
+
+  <label>Enter a value to indicate how duplicate file names are managed:</label>
+  <br />
+  <input
+    type="radio"
+    id="fdp_duplicate"
+    formControlName="filename_duplicate_policy"
+    value="duplicate"
+  />
+  <label for="fdp_duplicate">Duplicate</label>
+  <input
+    type="radio"
+    id="fdp_forbid"
+    formControlName="filename_duplicate_policy"
+    value="forbid"
+  />
+  <label for="fdp_forbid">Forbid</label>
+  <input
+    type="radio"
+    id="fdp_override"
+    formControlName="filename_duplicate_policy"
+    value="override"
+  />
+  <label for="fdp_override">Override</label>
+  <br />
+
+  <label>Environnement:</label>
+  <input type="radio" id="env" formControlName="env" value="UAT" />
+  <label for="env">UAT</label>
+
+  <input type="radio" id="env" formControlName="env" value="Production" />
+  <label for="env">Production</label>
+  <br />
+
+  <button type="submit">Update</button>
+</form>

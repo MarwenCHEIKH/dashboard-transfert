@@ -1,0 +1,123 @@
+<h1>Create a new VFD</h1>
+<form [formGroup]="directoryForm" (ngSubmit)="onSubmit()">
+  <label for="dir_path"
+    >Enter the absolute path of the directory you are creating.</label
+  >
+  <br />
+  <input type="text" id="dir_path" formControlName="dir_path" required />
+  <br />
+
+  <label for="alias"
+    >Enter a name for the directory, unique for the whole VFD.</label
+  >
+  <br />
+  <input type="text" id="alias" formControlName="alias" />
+  <br />
+
+  <label for="comments"
+    >Enter a comment about the VFD directory (Maximum: 80 alphanumeric
+    characters.)</label
+  >
+  <br />
+  <textarea id="comments" formControlName="comments"></textarea>
+  <br />
+
+  <label
+    >Enter a value to determine whether or not to mount the current
+    directory:</label
+  >
+  <input
+    type="checkbox"
+    id="mount_point"
+    formControlName="mount_point"
+    value="Y"
+  />
+  <br />
+
+  <label for="mount_dir_path"
+    >Enter the absolute path of the physical directory (RFD) to be
+    mounted.</label
+  >
+  <br />
+  <input type="text" id="mount_dir_path" formControlName="mount_dir_path" />
+  <br />
+
+  <label for="user_attribute"
+    >Enter a user parameter associated with the current directory.</label
+  >
+  <br />
+  <input type="text" id="user_attribute" formControlName="user_attribute" />
+  <br />
+
+  <label>In RFD mode only, enter the Gateway Mailbox recording option.</label>
+  <br />
+  <input
+    type="radio"
+    id="mr_yes"
+    formControlName="mailbox_recording"
+    value="Y"
+    checked
+  />
+  <label for="mr_yes">Yes</label>
+  <input
+    type="radio"
+    id="mr_no"
+    formControlName="mailbox_recording"
+    value="N"
+  />
+  <label for="mr_no">No</label>
+  <br />
+
+  <label for="filename_display_option"
+    >Enter a value to indicate how file names are displayed</label
+  >
+  <br />
+  <select
+    id="filename_display_option"
+    formControlName="filename_display_option"
+  >
+    <option value="XFB">XFB</option>
+    <option value="Standard">Standard</option>
+  </select>
+  <br />
+
+  <label>Enter a value to indicate how duplicate file names are managed:</label>
+  <br />
+  <input
+    type="radio"
+    id="fdp_duplicate"
+    formControlName="filename_duplicate_policy"
+    value="duplicate"
+    checked
+  />
+  <label for="fdp_duplicate">Duplicate</label>
+  <input
+    type="radio"
+    id="fdp_forbid"
+    formControlName="filename_duplicate_policy"
+    value="forbid"
+  />
+  <label for="fdp_forbid">Forbid</label>
+  <input
+    type="radio"
+    id="fdp_override"
+    formControlName="filename_duplicate_policy"
+    value="override"
+  />
+  <label for="fdp_override">Override</label>
+  <br />
+
+  <label>Environnement:</label>
+  <input type="radio" id="envUAT" formControlName="env" value="UAT" checked />
+  <label for="envUAT">UAT</label>
+  <input
+    type="radio"
+    id="envProduction"
+    formControlName="env"
+    value="Production"
+  />
+  <label for="envProduction">Production</label>
+  <br />
+
+  <button type="submit">Create</button>
+</form>

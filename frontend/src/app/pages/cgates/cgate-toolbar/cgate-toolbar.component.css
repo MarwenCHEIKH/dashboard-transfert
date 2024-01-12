@@ -1,0 +1,23 @@
+/* Bootstrap Toolbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Bootstrap Custom Button */
+.custom-button {
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.custom-button:not(:first-child) {
+  margin-left: 10px; /* Add margin to buttons (except the first one) */
+}
+
+.custom-button:hover,
+.custom-button.clicked {
+  background-color: #007bff;
+  color: white;
+  outline: none;
+}

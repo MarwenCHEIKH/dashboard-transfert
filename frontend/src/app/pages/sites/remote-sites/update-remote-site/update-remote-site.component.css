@@ -1,0 +1,10 @@
+.custom-span {
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.btn-group .btn.active {
+  border: 3px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

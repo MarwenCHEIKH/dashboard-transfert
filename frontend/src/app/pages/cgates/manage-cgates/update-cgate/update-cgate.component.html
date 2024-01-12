@@ -1,0 +1,1055 @@
+<form [formGroup]="cGateform" class="container mt-4">
+  <!-- your.component.html -->
+  <div class="button-container">
+    <div class="container mt-4">
+      <div class="btn-group" role="group" aria-label="Tabs">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'general-tab'"
+          (click)="toggleActive('general-tab')"
+        >
+          General
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'security-tab'"
+          (click)="toggleActive('security-tab')"
+        >
+          Security
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'output-parameters-tab'"
+          (click)="toggleActive('output-parameters-tab')"
+        >
+          Output Parameters
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'vfd-rights-tab'"
+          (click)="toggleActive('vfd-rights-tab')"
+        >
+          VFD Rights
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'calling-address-controls-tab'"
+          (click)="toggleActive('calling-address-controls-tab')"
+        >
+          Calling Address Controls
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- general-tab -->
+  <div *ngIf="activeTab === 'general-tab'">
+    <div class="row align-items-end">
+      <!-- Name Input -->
+      <div class="col-md-6 mb-3 mt-4">
+        <label for="name">Name:</label>
+        <select
+          id="name"
+          formControlName="name"
+          class="form-select"
+          data-live-search="true"
+          (change)="onSelectChange()"
+        >
+          <option *ngFor="let cGate of cGates" [value]="cGate">
+            {{ cGate }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4 mb-3 mt-4">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onDelete()"
+          [disabled]="!selectedcgate"
+        >
+          delete cGateGroup
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="comments">Comments:</label>
+        <input
+          type="textArea"
+          id="comments"
+          formControlName="comments"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="parent_cgateGroup">Parent CgateGroup:</label>
+        <select
+          id="parent_cgateGroup"
+          formControlName="parent_cgateGroup"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let cGateGroup of cGateGroups" [value]="cGateGroup">
+            {{ cGateGroup }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="state">State</label>
+        <select
+          id="state"
+          formControlName="state"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="E">Enabled</option>
+          <option value="D">Disabled</option>
+          <option value="U">Undefined</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div
+        class="card h-100"
+        style="
+          width: 50rem;
+          margin-bottom: 20px;
+          margin-top: 20px;
+          margin-left: 12px;
+        "
+      >
+        <div class="card-body">
+          <label class="card-title">HTTP/FTP/SFTP/Pesit Pre-connection</label>
+          <div class="row">
+            <div
+              class="card h-100"
+              style="width: 50rem; margin-left: 5px; margin-right: 20px"
+            >
+              <div class="card-body">
+                <label class="card-title">Identification</label>
+                <div class="row">
+                  <div class="col-md-4 mb-3 mt-2">
+                    <label for="login_user ">Login User Name:</label>
+                    <input
+                      type="text"
+                      id="login_user"
+                      formControlName="login_user"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="col-md-4 mb-3 mt-2">
+                    <label for="change_password_option">Change Password</label>
+                    <select
+                      id="change_password_option"
+                      formControlName="change_password_option"
+                      class="form-select"
+                      data-live-search="true"
+                    >
+                      <option value="N">Never</option>
+                      <option value="A">Allowed</option>
+                      <option value="F">Forced</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="card h-100"
+            style="
+              width: 48rem;
+              margin-left: 20px;
+              margin-right: 20px;
+              margin-bottom: 10px;
+            "
+          >
+            <div class="card-body">
+              <h5 class="card-title">Checking</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3 mt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="showPasswordFields('login')"
+                    [disabled]="isChangePasswordOptionDisabled()"
+                  >
+                    Modify Login Password
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="showFields && showLoginFields" class="form-group">
+                <label for="password">Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  formControlName="login_password"
+                />
+              </div>
+
+              <div
+                *ngIf="showFields && showLoginFields"
+                class="form-group"
+                [ngClass]="{ 'password-mismatch': !passwordConfirmed['login'] }"
+              >
+                <label for="confirmPassword">Confirm Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  formControlName="confirm_login_password"
+                  (input)="confirmPasswordMatch('login')"
+                />
+                <div
+                  *ngIf="!passwordConfirmed['login']"
+                  class="password-mismatch-message"
+                >
+                  Passwords do not match.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div
+        class="card h-100"
+        style="
+          width: 50rem;
+          margin-bottom: 20px;
+          margin-top: 20px;
+          margin-left: 12px;
+        "
+      >
+        <div class="card-body">
+          <label class="card-title">PHSE</label>
+          <div class="row">
+            <div
+              class="card h-100"
+              style="width: 50rem; margin-left: 5px; margin-right: 20px"
+            >
+              <div class="card-body">
+                <label class="card-title">Identification</label>
+
+                <div class="col-md-4 mb-3">
+                  <label for="client_ident">Client ID</label>
+                  <input
+                    type="text"
+                    id="client_ident"
+                    formControlName="client_ident"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label for="server_ident ">Server ID</label>
+                  <input
+                    type="text"
+                    id="server_ident"
+                    formControlName="server_ident"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="card h-100"
+            style="
+              width: 48rem;
+              margin-left: 20px;
+              margin-right: 20px;
+              margin-bottom: 10px;
+            "
+          >
+            <div class="card-body">
+              <h5 class="card-title">Checking</h5>
+              <div class="row">
+                <div class="col-md-6 mb-3 mt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="showPasswordFields('client')"
+                    [disabled]="isChangePasswordOptionDisabled()"
+                  >
+                    Modify Client Password
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="showFields && showClientFields" class="form-group">
+                <label for="clientPassword">Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="client_password"
+                  formControlName="client_password"
+                />
+              </div>
+
+              <div
+                *ngIf="showFields && showClientFields"
+                class="form-group"
+                [ngClass]="{
+                  'password-mismatch': !passwordConfirmed['client']
+                }"
+              >
+                <label for="confirmClientPassword">Confirm Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirm_client_password"
+                  formControlName="confirm_client_password"
+                  (input)="confirmPasswordMatch('client')"
+                />
+                <div
+                  *ngIf="!passwordConfirmed['client']"
+                  class="password-mismatch-message"
+                >
+                  Passwords do not match.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- security-tab -->
+  <div *ngIf="activeTab === 'security-tab'">
+    <div class="row align-items-end">
+      <div class="col-md-4 mb-3 mt-4">
+        <label for="tls_client_auth" class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="tls_client_auth"
+            formControlName="tls_client_auth"
+          />
+          TLS Client Authentication
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="tls_sprof">TLS profile name</label>
+          <input
+            type="text"
+            id="tls_sprof"
+            formControlName="tls_sprof"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="tls_sprof_user_param">TLS profile user parameter</label>
+          <input
+            type="text"
+            id="tls_sprof_user_param"
+            formControlName="tls_sprof_user_param"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_public_key_alias">Public key alias</label>
+          <input
+            type="text"
+            id="remote_public_key_alias"
+            formControlName="remote_public_key_alias"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_public_key_group">Public key group</label>
+          <input
+            type="text"
+            id="remote_public_key_group"
+            formControlName="remote_public_key_group"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_subject_cert_alias"
+            >Subject certificate alias</label
+          >
+          <input
+            type="text"
+            id="remote_subject_cert_alias"
+            formControlName="remote_subject_cert_alias"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_issuer_cert_alias">Issuer certificate alias</label>
+          <input
+            type="text"
+            id="remote_issuer_cert_alias"
+            formControlName="remote_issuer_cert_alias"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_subject_name_pattern">Subject name pattern</label>
+          <input
+            type="text"
+            id="remote_subject_name_pattern"
+            formControlName="remote_subject_name_pattern"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="remote_issuer_name_pattern">Issuer name pattern</label>
+          <input
+            type="text"
+            id="remote_issuer_name_pattern"
+            formControlName="remote_issuer_name_pattern"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- output-parameters-tab -->
+  <div *ngIf="activeTab === 'output-parameters-tab'">
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-4 mb-3 mt-4">
+          <label for="root_dir">Root directory</label>
+          <input
+            type="text"
+            id="root_dir"
+            formControlName="root_dir"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="home_dir">Home directory</label>
+          <input
+            type="text"
+            id="home_dir"
+            formControlName="home_dir"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="usr_params">User Parameters:</label>
+        <div class="col-md-4 mb-3">
+          <label for="usr_param1" class="d-block mt-2">Param 1</label>
+          <input
+            type="text"
+            id="usr_param1"
+            formControlName="usr_param1"
+            class="form-control mb-2"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="usr_param2" class="d-block mt-2">Param 2</label>
+          <input
+            type="text"
+            id="usr_param2"
+            formControlName="usr_param2"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="http_specific">HTTP scpecific:</label>
+        <div class="col-md-4 mb-3">
+          <label for="http_home_page" class="d-block mt-2"
+            >HTTP Home Page</label
+          >
+          <input
+            type="text"
+            id="http_home_page"
+            formControlName="http_home_page"
+            class="form-control mb-2"
+          />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="http_list_template" class="d-block mt-2"
+            >HTTP List Template</label
+          >
+          <input
+            type="text"
+            id="http_list_template"
+            formControlName="http_list_template"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <label for="ftp_sftp_quotas" class="col-md-4 mb-3"
+          >FTP/SFTP quotas:</label
+        >
+      </div>
+
+      <div class="row">
+        <div class="col-md-1 mb-3">
+          <label for="maximum_uploads" class="d-block mt-1" s
+            >Maximum uploads</label
+          >
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="KB/min"
+            formControlName="max_upload_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="KB/min" class="d-block mt-1">KB/min</label>
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="Requests/min"
+            formControlName="max_upload_requests_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="Requests/min" class="d-block mt-1">Requests/min</label>
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="MB"
+            formControlName="max_upload_file_size"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="MB" class="d-block mt-1">MB</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1 mb-3">
+          <label for="maximum_downloads" class="d-block mt-1" s
+            >Maximum downloads</label
+          >
+        </div>
+        <div class="col-md-1 mb-3">
+          <input
+            type="text"
+            id="KB/min"
+            formControlName="max_download_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="KB/min" class="d-block mt-1">KB/min</label>
+        </div>
+        <div class="col-md-2 mb-3">
+          <input
+            type="text"
+            id="Requests/min"
+            formControlName="max_download_requests_rate"
+            class="form-control"
+            style="margin-right: auto; margin-left: 20px"
+          />
+        </div>
+        <div class="col-md-1 mb-3">
+          <label for="Requests/min" class="d-block mt-1">Requests/min</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="command_sensitivity">Command Sensitivity</label>
+          <input
+            type="range"
+            class="form-range"
+            min="0"
+            max="5"
+            id="customRange2"
+            formControlName="command_sensitivity"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="ftpcs_list_fields" class="d-block"
+            >FTP CS List fields</label
+          >
+          <input
+            type="text"
+            id="ftpcs_list_fields"
+            formControlName="ftpcs_list_fields"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- vfd-rights-tab -->
+  <div *ngIf="activeTab === 'vfd-rights-tab'">
+    <div class="mt-4">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          font-weight: bold;
+          padding: 5px 0;
+        "
+      >
+        <span class="custom-span" style="width: 10%">Select</span>
+        <span class="custom-span" style="width: 15%">VFD directory path</span>
+        <span class="custom-span" style="width: 15%">VFD file pattern</span>
+        <span class="custom-span" style="width: 15%">VFD directory rights</span>
+        <span class="custom-span" style="width: 15%">VFD file rights</span>
+        <span class="custom-span" style="width: 15%"
+          >Subdirectory inheritance</span
+        >
+      </div>
+      <ul
+        id="selectedVfdList"
+        class="form-control"
+        style="
+          min-height: 170px;
+          border: 1px solid #ccc;
+          padding: 10px;
+          overflow-y: auto;
+          max-height: 350px;
+          list-style-type: none;
+        "
+      >
+        <li
+          *ngFor="let value of enteredVfdValues"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+          "
+        >
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange(value)"
+            style="width: 10%"
+          />
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.dir_path || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.file_pattern || "-" }}
+          </span>
+
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.dir_rights || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.file_rights || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              width: 15%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+            "
+          >
+            {{ value.subdir_inheritance || "-" }}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div style="margin-top: 10px">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-right: 10px"
+        (click)="displayValues('vfd_rights')"
+      >
+        Add
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="removeValues('vfd_rights')"
+        style="margin-right: 10px"
+        [disabled]="this.selectedItems.length === 0"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="clearList('vfd_rights')"
+        [disabled]="this.enteredVfdValues.length === 0"
+      >
+        Clear
+      </button>
+    </div>
+
+    <div class="row align-items-end">
+      <div class="row">
+        <div class="col-md-6 mb-3 mt-4">
+          <div class="row mb-2">
+            <label for="VFD_rights" class="mb-2">VFD rights:</label>
+          </div>
+
+          <label for="dir_path">Directory Path</label>
+          <input
+            type="text"
+            class="form-control"
+            id="dir_path"
+            formControlName="dir_path"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="file_pattern">File Pattern</label>
+          <input
+            type="text"
+            class="form-control"
+            id="file_pattern"
+            formControlName="file_pattern"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">General Information</label>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="subdir_inheritance"
+                    >Subdirectory Inheritance</label
+                  >
+                </div>
+                <div class="col-md-1 mb-3">
+                  <input
+                    type="checkbox"
+                    class="form-check"
+                    id="subdir_inheritance"
+                    formControlName="subdir_inheritance"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">Directory Rights</label>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_list"
+                  formControlName="dir_rights_list"
+                />
+                <label for="dir_rights_list" class="form-check-label"
+                  >List</label
+                >
+              </div>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_create"
+                  formControlName="dir_rights_create"
+                />
+                <label for="dir_rights_create" class="form-check-label"
+                  >Create</label
+                >
+              </div>
+
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="dir_rights_remove"
+                  formControlName="dir_rights_remove"
+                />
+                <label for="dir_rights_remove" class="form-check-label"
+                  >Remove</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <label class="card-title">File Rights</label>
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_read"
+                  formControlName="file_rights_read"
+                />
+                <label for="file_rights_read" class="form-check-label"
+                  >Read</label
+                >
+              </div>
+
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_delete"
+                  formControlName="file_rights_delete"
+                />
+                <label for="file_rights_delete" class="form-check-label"
+                  >Delete</label
+                >
+              </div>
+
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="file_rights_write"
+                  formControlName="file_rights_write"
+                />
+                <label for="file_rights_write" class="form-check-label"
+                  >Write</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- calling-address-controls-tab -->
+  <div *ngIf="activeTab === 'calling-address-controls-tab'">
+    <div class="mt-4">
+      <ul
+        id="calling_address"
+        class="form-control"
+        style="
+          min-height: 170px;
+          border: 1px solid #ccc;
+          padding: 10px;
+          overflow-y: auto;
+          max-height: 350px;
+          list-style-type: none;
+        "
+      >
+        <li
+          style="
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 0;
+          "
+        >
+          <span class="custom-span" style="width: 10%">Select</span>
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+            >Calling address</span
+          >
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+            >Access</span
+          >
+        </li>
+        <li
+          *ngFor="let value of enteredCallingAddressValues"
+          style="display: flex; align-items: center; padding: 5px 0"
+        >
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange(value)"
+            style="width: 10%"
+          />
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+          >
+            {{ value.calling_address_pattern || "-" }}
+          </span>
+          <span
+            class="custom-span"
+            style="
+              min-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              text-align: left;
+              flex: 1;
+            "
+          >
+            {{ value.access || "-" }}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3 mt-3">
+        <label for="calling_address_pattern">Calling address pattern </label>
+        <input
+          type="text"
+          class="form-control"
+          id="calling_address_pattern"
+          formControlName="calling_address_pattern"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="access">Access allowed</label>
+
+        <div class="col-md-1 mb-3">
+          <input
+            type="checkbox"
+            class="form-check"
+            id="access"
+            formControlName="access"
+          />
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 10px">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-right: 10px"
+        (click)="displayValues('calling_address')"
+      >
+        Add
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="removeValues('calling_address')"
+        style="margin-right: 10px"
+        [disabled]="this.selectedItems.length === 0"
+      >
+        Remove
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="clearList('calling_address')"
+        [disabled]="this.enteredCallingAddressValues.length === 0"
+      >
+        Clear
+      </button>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+    style="margin-left: 50px; margin-top: 30px; margin-bottom: 20px; width: 25%"
+    [disabled]="
+      !cGateform.valid ||
+      !passwordConfirmed['login'] ||
+      !passwordConfirmed['client']
+    "
+  >
+    Create CGateGroup
+  </button>
+</form>

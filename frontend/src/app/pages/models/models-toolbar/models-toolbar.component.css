@@ -1,0 +1,33 @@
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1; /* This creates a flexible space to push the buttons to the right */
+}
+
+.button-container {
+  display: flex;
+}
+
+.custom-button {
+  transition: background-color 0.3s, color 0.3s;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.custom-button:first-child {
+  margin-left: 0; /* Remove margin from the first button */
+}
+
+.custom-button:hover {
+  background-color: #007bff; /* Change this to the desired hover color */
+  color: white; /* Change this to the desired text color on hover */
+}
+
+.custom-button.clicked {
+  background-color: #007bff; /* Change this to the desired focus color */
+  color: white; /* Change this to the desired text color on focus */
+  outline: none;
+}

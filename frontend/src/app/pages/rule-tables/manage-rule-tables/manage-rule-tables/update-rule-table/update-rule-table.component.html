@@ -1,0 +1,583 @@
+<form [formGroup]="ruleTableForm" class="container mt-4">
+  <!-- your.component.html -->
+  <div class="button-container">
+    <div class="container mt-4">
+      <div class="btn-group" role="group" aria-label="Tabs">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'general-tab'"
+          (click)="toggleActive('general-tab')"
+        >
+          General
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'fileEvents-tab'"
+          (click)="toggleActive('fileEvents-tab')"
+        >
+          File Events
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          [class.active]="activeTab === 'linkedRules-tab'"
+          (click)="toggleActive('linkedRules-tab')"
+        >
+          Linked Rules
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="activeTab === 'general-tab'">
+    <div class="row align-items-end">
+      <!-- Name Input -->
+      <div class="col-md-6 mb-3 mt-4">
+        <label for="name">Select Rule Table:</label>
+        <select
+          id="name"
+          formControlName="name"
+          class="form-select"
+          data-live-search="true"
+          (change)="onSelectChange()"
+        >
+          <option *ngFor="let ruleTable of ruleTables" [value]="ruleTable">
+            {{ ruleTable }}
+          </option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <button
+            type="button"
+            class="btn btn-primary btn"
+            (click)="deleteTable()"
+          >
+            Delete Table
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="comments">Comments:</label>
+        <input
+          type="textArea"
+          id="comments"
+          formControlName="comments"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="form-check form-switch">
+          <input
+            type="checkbox"
+            id="active"
+            formControlName="status"
+            value="ACTIVE"
+            class="form-check-input"
+            checked
+          />
+          <label class="form-check-label" for="active">Active</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="execution_type">Default Execution Type:</label>
+        <select
+          id="execution_type"
+          formControlName="execution_type"
+          class="form-select"
+          data-live-search="true"
+          (change)="onExecutionTypeChange()"
+        >
+          <option value="MODEL">Model</option>
+          <option value="PERL">Perl Script</option>
+          <option value="COMMAND">Batch command</option>
+          <option value="MAILBOX_CLEANING">Mailbox cleaning</option>
+          <option value="To_XMS">To XMS</option>
+          <option value="XIB">XIB</option>
+          <option value="NONE">No Action</option>
+        </select>
+      </div>
+      <!-- Model fields -->
+      <div class="col-md-4 mb-3" *ngIf="executionType == 'MODEL'">
+        <label for="models">Select Model</label>
+        <select
+          id="model"
+          formControlName="model"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let model of generalModels" [value]="model">
+            {{ model }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="col-md-4"
+        *ngIf="executionType == 'MODEL'"
+        style="margin-top: 19px"
+      >
+        <button
+          class="btn btn-secondary"
+          routerLink="/manage-models/create-model"
+        >
+          New Model
+        </button>
+      </div>
+      <!-- Perl Fields -->
+      <div class="col-md-4 mb-3" *ngIf="executionType == 'PERL'">
+        <label for="scriptName">Perl Script Name:</label>
+        <input
+          type="text"
+          id="scriptName"
+          formControlName="scriptName"
+          placeholder="example: my_script.pl"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-4" *ngIf="executionType == 'PERL'">
+        <label for="scriptPath">Perl Script Access Path:</label>
+        <input
+          type="text"
+          id="scriptPath"
+          formControlName="scriptPath"
+          class="form-control"
+          placeholder="example: /home/users/utill/scripts"
+        />
+      </div>
+      <!-- Command Fields -->
+      <div class="col-md-4 mb-3" *ngIf="executionType == 'COMMAND'">
+        <label for="scriptName">Script Name:</label>
+        <input
+          type="text"
+          id="scriptName"
+          formControlName="scriptName"
+          placeholder="example: ftpconf.sh"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-4" *ngIf="executionType == 'COMMAND'">
+        <label for="scriptPath">Script Access Path:</label>
+        <input
+          type="text"
+          id="scriptPath"
+          formControlName="scriptPath"
+          class="form-control"
+          placeholder="example: /bin/ksh/p_home_dir/run_time"
+        />
+      </div>
+
+      <!-- MailBOX Fields -->
+      <div class="col-md-4 mb-3" *ngIf="executionType == 'MAILBOX_CLEANING'">
+        <label for="purgeModels">Select Purge Model</label>
+        <select
+          id="purgeModel"
+          formControlName="purgeModel"
+          class="form-select"
+          data-live-search="true"
+          (change)="onExecutionTypeChange()"
+        >
+          <option *ngFor="let purgeModel of purgeModels" [value]="purgeModel">
+            {{ purgeModel }}
+          </option>
+        </select>
+      </div>
+      <!-- TO_XMS Fields -->
+      <div class="col-md-4 mb-3" *ngIf="executionType == 'To_XMS'">
+        <label for="XMSModels">Select XMS Model</label>
+        <select
+          id="XMSModel"
+          formControlName="XMSModel"
+          class="form-select"
+          data-live-search="true"
+          (change)="onExecutionTypeChange()"
+        >
+          <option *ngFor="let XMSModel of toXMSModels" [value]="XMSModel">
+            {{ XMSModel }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="execution_type">Log Level</label>
+        <select
+          id="log_level"
+          formControlName="log_level"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option value="0">no log</option>
+          <option value="1">short</option>
+          <option value="2">full</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="env">Environment:</label>
+        <div class="form-check mt-2">
+          <input
+            type="radio"
+            id="envUAT"
+            formControlName="env"
+            value="UAT"
+            class="form-check-input"
+            checked
+          />
+          <label class="form-check-label" for="envUAT">UAT</label>
+        </div>
+        <div class="form-check mt-2">
+          <!-- Use mt-2 to add margin-top -->
+          <input
+            type="radio"
+            id="envProduction"
+            formControlName="env"
+            value="Production"
+            class="form-check-input"
+          />
+          <label class="form-check-label" for="envProduction">Production</label>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onSubmit()"
+          style="margin-left: 50px; margin-top: 30px; width: 100%"
+          [disabled]="!ruleTableForm.valid"
+        >
+          Update Table
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="activeTab === 'fileEvents-tab'">
+    <div class="row">
+      <div class="col-md-4 mb-3 mt-4">
+        <div class="form-check form-switch">
+          <input
+            type="checkbox"
+            id="restrict_processing"
+            formControlName="restrict_processing"
+            value="restrict_processing"
+            class="form-check-input"
+            style="cursor: pointer"
+          />
+          <label class="form-check-label" for="restrict_processing"
+            >Restrict Processing</label
+          >
+        </div>
+      </div>
+    </div>
+    <div *ngIf="ruleTableForm.get('restrict_processing')?.value">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="transfer_state">Transfer State</label>
+          <select
+            id="restrict_processing_on_state"
+            formControlName="restrict_processing_on_state"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="ENDED">ended</option>
+            <option value="CANCELED">canceled</option>
+            <option value="ACKNOWLEDGED">aknowledged</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="transfer_direction">Transfer Direction</label>
+          <select
+            id="restrict_processing_on_direction"
+            formControlName="restrict_processing_on_direction"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="IN">In</option>
+            <option value="OUT">Out</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="transfer_mode ">Transfer Mode</label>
+          <select
+            id="restrict_processing_on_mode"
+            formControlName="restrict_processing_on_mode"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="INITIATOR">Initiator</option>
+            <option value="RESPONDER">Responder</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="transfer_type">Transfer Type</label>
+          <select
+            id="restrict_processing_on_type"
+            formControlName="restrict_processing_on_type"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="TRANS">Trans</option>
+            <option value="LOTS">Lots</option>
+            <option value="POLL">Poll</option>
+            <option value="LIST">List</option>
+            <option value="EERP">EERP</option>
+            <option value="SELECT">Select</option>
+            <option value="MSG">MSG</option>
+            <option value="DIR">Dir</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="transfer_protocol">Transfer Protocol</label>
+          <select
+            id="restrict_processing_on_protocol"
+            formControlName="restrict_processing_on_protocol"
+            class="form-select"
+            data-live-search="true"
+          >
+            <option value="PHSE">PHSE</option>
+            <option value="PHSD">PHSD</option>
+            <option value="FTP">FTP</option>
+            <option value="HTTP">HTTP</option>
+            <option value="FTP_HTTP">FTP_HTTP</option>
+            <option value="ETEBAC3">ETEBAC3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeTab === 'linkedRules-tab'">
+    <div class="container mt-4">
+      <div class="mt-4">
+        <ul
+          id="selectedRulesList"
+          class="form-control"
+          style="
+            min-height: 170px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 350px;
+            list-style-type: none;
+          "
+        >
+          <!-- Header row -->
+          <li
+            style="
+              font-weight: bold;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: 1px solid #ccc;
+              padding: 5px 0;
+            "
+          >
+            <span style="width: 30px; text-align: center">Select</span>
+            <span style="width: 100px; text-align: center">Name</span>
+            <span style="width: 50px; text-align: center">Order</span>
+            <span style="flex-basis: 150px; text-align: center">Comments</span>
+            <span style="flex-basis: 120px; text-align: center"
+              >Execution Type</span
+            >
+          </li>
+
+          <!-- List items -->
+          <li
+            *ngFor="let rule of rd_rules; let i = index"
+            style="display: flex; align-items: center; padding: 5px 0"
+          >
+            <input
+              type="checkbox"
+              [checked]="
+                rule.rd_name === ruleTableForm.get('selectedRule')?.value
+              "
+              (change)="onCheckboxChange(rule)"
+            />
+            <label
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+              "
+            >
+              <span style="width: 30px; text-align: center">{{
+                rule.selected ? "X" : ""
+              }}</span>
+              <span
+                style="
+                  width: 150px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  text-align: left;
+                "
+                >{{ rule.rd_name }}</span
+              >
+              <span style="width: 50px; text-align: center">{{ i + 1 }}</span>
+              <span
+                style="
+                  flex-basis: 150px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  text-align: left;
+                "
+                >{{ rule.rd_comments }}</span
+              >
+              <span
+                style="
+                  flex-basis: 120px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  text-align: center;
+                "
+                >{{ rule.rd_execution_type }}</span
+              >
+            </label>
+          </li>
+        </ul>
+
+        <div style="margin-top: 10px">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm ms-2"
+            (click)="moveRule('up')"
+            style="max-height: 38px"
+          >
+            <i class="bi bi-arrow-up" style="font-size: 1.5rem"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm ms-2"
+            (click)="moveRule('down')"
+            style="max-height: 38px"
+          >
+            <i class="bi bi-arrow-down" style="font-size: 1.5rem"></i>
+          </button>
+        </div>
+
+        <div class="mt-4">
+          <div class="table-container">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Select</th>
+                  <th>Name</th>
+                  <th>Type of Decision Rules</th>
+                  <th>Comments</th>
+                  <th>Details</th>
+                  <th>Action</th>
+                  <!-- Add other table headers based on your data structure -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rule of rules">
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{{ rule.rd_name }}</td>
+                  <td>{{ rule.rd_type_of_decisionrules }}</td>
+                  <td>{{ rule.rd_comments }}</td>
+
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm ms-2"
+                      (click)="openDetailsModal(rule)"
+                    >
+                      Show Details
+                    </button>
+                  </td>
+
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm ms-2"
+                      (click)="addSelectedRuleToDiv(rule)"
+                    >
+                      Add
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm ms-2"
+                      (click)="removeSelectedRuleFromDiv(rule.rd_name)"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                  <!-- Add other table cells based on your data structure -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div *ngFor="let rule of rules">
+        <!-- ... other table rows -->
+
+        <!-- Bootstrap Modal -->
+        <div
+          class="modal fade"
+          [id]="'detailsModal' + rule.rd_name"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="detailsModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">
+                  {{ rule.rd_name }} Details
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Add other details based on your data structure -->
+                <p>{{ rule.rd_type_of_decisionrules }}</p>
+                <p>{{ rule.rd_comments }}</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <!-- Add other buttons as needed -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

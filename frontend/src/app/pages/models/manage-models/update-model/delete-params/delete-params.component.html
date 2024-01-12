@@ -1,0 +1,33 @@
+<h1>update a Model</h1>
+<button routerLink="/manage-models/update-model/modify">
+  Modify Parameters
+</button>
+
+<button routerLink="/manage-models/update-model/delete">
+  Delete Parameters
+</button>
+<div>
+  <label for="modelSelect">Choose Model</label>
+  <select
+    id="modelSelect"
+    name="model_name"
+    [(ngModel)]="selectedModel"
+    (change)="onModelChange()"
+  >
+    <option
+      *ngFor="let obj of models"
+      [ngValue]="{ modelName: obj.model_name, protocol: obj.protocol }"
+    >
+      {{ obj.model_name }}/Protocol: {{ obj.protocol }}
+    </option>
+  </select>
+</div>
+<form [formGroup]="modelParams" (ngSubmit)="onSubmit()">
+  <div *ngFor="let key of modelKeys">
+    <label>
+      <input type="checkbox" [formControlName]="key" />
+      {{ key }}
+    </label>
+  </div>
+  <button type="submit">Delete</button>
+</form>

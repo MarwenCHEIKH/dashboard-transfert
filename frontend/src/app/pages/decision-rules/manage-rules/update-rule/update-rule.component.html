@@ -1,0 +1,333 @@
+<form [formGroup]="ruleForm" class="container mt-4">
+  <div class="row align-items-end">
+    <!-- Name Input -->
+    <div class="col-md-6 mb-3">
+      <label for="models">Select Rule</label>
+      <select
+        id="rule"
+        formControlName="rule"
+        class="form-select"
+        data-live-search="true"
+        (change)="onRuleChange()"
+      >
+        <option *ngFor="let rule of decisionRules" [value]="rule">
+          {{ rule }}
+        </option>
+      </select>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <button
+          class="btn btn-primary"
+          style="margin-left: 8px"
+          (click)="deleteRule()"
+        >
+          delete rule
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="comments">Comments:</label>
+      <input
+        type="textArea"
+        id="comments"
+        formControlName="comments"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <button
+        class="btn btn-primary"
+        style="margin-left: 8px"
+        (click)="setAction('add')"
+      >
+        add condition
+      </button>
+      <button
+        class="btn btn-primary"
+        style="margin-left: 8px"
+        (click)="setAction('modify')"
+      >
+        modify condition
+      </button>
+    </div>
+  </div>
+  <!-- add condition -->
+  <div *ngIf="this.currentAction == 'add'">
+    <div class="row">
+      <div class="col-md-8 mb-3">
+        <label for="outputTextarea">Condition:</label>
+        <textarea
+          id="outputTextarea"
+          class="form-control"
+          formControlName="addCondition"
+          rows="5"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Arguments Select -->
+      <div class="col-md-4 mb-3">
+        <label for="arguments">Arguments:</label>
+        <select
+          id="arguments"
+          formControlName="arguments"
+          class="form-select"
+          (change)="onArgumentChange()"
+          data-live-search="true"
+        >
+          <option *ngFor="let argument of argumentNames" [value]="argument">
+            {{ argument }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Operator Select -->
+      <div class="col-md-4 mb-3">
+        <label for="operators">Operator:</label>
+        <select
+          id="operators"
+          formControlName="operators"
+          class="form-select"
+          data-live-search="true"
+        >
+          <option *ngFor="let operator of operators" [value]="operator">
+            {{ operator }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="value">Value:</label>
+        <input
+          type="text"
+          id="value"
+          formControlName="value"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <button class="btn btn-secondary" (click)="addCondition()">Add</button>
+        <button
+          class="btn btn-secondary"
+          style="margin-left: 8px"
+          (click)="clearConditions()"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- modify conditions -->
+  <div *ngIf="this.currentAction == 'modify'">
+    <div class="col-md-12 mb-3">
+      <label for="arguments">Select Condition</label>
+      <select
+        id="selectCon"
+        formControlName="selectCon"
+        class="form-select"
+        (change)="onConditionChange()"
+        [(ngModel)]="selectedCondition"
+        data-live-search="true"
+      >
+        <option *ngFor="let condition of rd_Conditions" [value]="condition">
+          {{ condition }}
+        </option>
+      </select>
+    </div>
+    <div class="row">
+      <div class="col-md-8 mb-3">
+        <label for="outputTextarea">Condition:</label>
+        <textarea
+          id="outputTextarea"
+          class="form-control"
+          formControlName="modifyCondition"
+          rows="5"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <button class="btn btn-secondary" (click)="toggleReadonlyState()">
+          {{ readOnlyState ? "Modify" : "Save" }}
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          style="margin-left: 8px"
+          (click)="deleteCondition()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label for="execution_type">Execution Type:</label>
+      <select
+        id="execution_type"
+        formControlName="execution_type"
+        class="form-select"
+        data-live-search="true"
+        (change)="onExecutionTypeChange()"
+      >
+        <option value="MODEL">Model</option>
+        <option value="PERL">Perl Script</option>
+        <option value="COMMAND">Batch command</option>
+        <option value="MAILBOX_CLEANING">Mailbox cleaning</option>
+        <option value="To_XMS">To XMS</option>
+        <option value="XIB">XIB</option>
+        <option value="NONE">No Action</option>
+      </select>
+    </div>
+    <!-- Model fields -->
+    <div class="col-md-4 mb-3" *ngIf="executionType == 'MODEL'">
+      <label for="models">Select Model</label>
+      <select
+        id="model"
+        formControlName="model"
+        class="form-select"
+        data-live-search="true"
+        (change)="onExecutionTypeChange()"
+      >
+        <option *ngFor="let model of generalModels" [value]="model">
+          {{ model }}
+        </option>
+      </select>
+    </div>
+    <div
+      class="col-md-4"
+      *ngIf="executionType == 'MODEL'"
+      style="margin-top: 19px"
+    >
+      <button
+        class="btn btn-secondary"
+        routerLink="/manage-models/create-model"
+      >
+        New Model
+      </button>
+    </div>
+    <!-- Perl Fields -->
+    <div class="col-md-4 mb-3" *ngIf="executionType == 'PERL'">
+      <label for="scriptName">Perl Script Name:</label>
+      <input
+        type="text"
+        id="scriptName"
+        formControlName="scriptName"
+        placeholder="example: my_script.pl"
+        class="form-control"
+      />
+    </div>
+    <div class="col-md-4" *ngIf="executionType == 'PERL'">
+      <label for="scriptPath">Perl Script Access Path:</label>
+      <input
+        type="text"
+        id="scriptPath"
+        formControlName="scriptPath"
+        class="form-control"
+        placeholder="example: /home/users/utill/scripts"
+      />
+    </div>
+    <!-- Command Fields -->
+    <div class="col-md-4 mb-3" *ngIf="executionType == 'COMMAND'">
+      <label for="scriptName">Script Name:</label>
+      <input
+        type="text"
+        id="scriptName"
+        formControlName="scriptName"
+        placeholder="example: ftpconf.sh"
+        class="form-control"
+      />
+    </div>
+    <div class="col-md-4" *ngIf="executionType == 'COMMAND'">
+      <label for="scriptPath">Script Access Path:</label>
+      <input
+        type="text"
+        id="scriptPath"
+        formControlName="scriptPath"
+        class="form-control"
+        placeholder="example: /bin/ksh/p_home_dir/run_time"
+      />
+    </div>
+
+    <!-- MailBOX Fields -->
+    <div class="col-md-4 mb-3" *ngIf="executionType == 'MAILBOX_CLEANING'">
+      <label for="purgeModels">Select Purge Model</label>
+      <select
+        id="purgeModel"
+        formControlName="purgeModel"
+        class="form-select"
+        data-live-search="true"
+        (change)="onExecutionTypeChange()"
+      >
+        <option *ngFor="let purgeModel of purgeModels" [value]="purgeModel">
+          {{ purgeModel }}
+        </option>
+      </select>
+    </div>
+    <!-- TO_XMS Fields -->
+    <div class="col-md-4 mb-3" *ngIf="executionType == 'To_XMS'">
+      <label for="XMSModels">Select XMS Model</label>
+      <select
+        id="XMSModel"
+        formControlName="XMSModel"
+        class="form-select"
+        data-live-search="true"
+        (change)="onExecutionTypeChange()"
+      >
+        <option *ngFor="let XMSModel of toXMSModels" [value]="XMSModel">
+          {{ XMSModel }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label for="env">Environment:</label>
+      <div class="form-check mt-2">
+        <input
+          type="radio"
+          id="envUAT"
+          formControlName="env"
+          value="UAT"
+          class="form-check-input"
+          checked
+        />
+        <label class="form-check-label" for="envUAT">UAT</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          type="radio"
+          id="envProduction"
+          formControlName="env"
+          value="Production"
+          class="form-check-input"
+        />
+        <label class="form-check-label" for="envProduction">Production</label>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="onSubmit()"
+        style="margin-left: 50px; margin-top: 30px; width: 100%"
+        [disabled]="!ruleForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,110 @@
+<div class="col-md-4 mb-3" style="margin-top: 100px">
+  <div class="title-container">
+    <h2 class="title" style="margin-left: 25px">Gestion de l'annuaire</h2>
+    <h2 class="title" style="margin-left: 460px">Volumétrie</h2>
+  </div>
+
+  <div class="container">
+    <div class="wrapper">
+      <div class="card h-100 custom-card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="card-title custom-label">Ajouter:</label>
+              <select id="add" class="form-select" data-live-search="true">
+                <option value="" disabled selected>Select an option</option>
+                <option>Partenaires</option>
+                <option>Contacts</option>
+                <option>Type de Contact</option>
+                <option>Type de Partenaires</option>
+                <option>Type de Société</option>
+                <option>Société Mère</option>
+                <option>Liaison</option>
+                <option>Protocole</option>
+                <option>Passerelle</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="card-title custom-label">Ajouter via CSV:</label>
+              <select id="add-csv" class="form-select" data-live-search="true">
+                <option value="" disabled selected>Select an option</option>
+                <option>Contacts</option>
+                <option>Partenaires</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3 custom-fileInput">
+              <input type="file" />
+            </div>
+            <p style="margin-top: -10px">Les doublons seront ingnorés</p>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <button class="btn btn-secondary custom-button">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <div class="card h-100 custom-card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="card-title custom-label">Typologies:</label>
+              <table class="table table-bordered custom-table text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">Type de Contact</th>
+                    <th scope="col">Nombre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Technique Transfert</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Responsable de service</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Non défini</td>
+                    <td>153</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-bordered custom-table text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">Type de Partenaire</th>
+                    <th scope="col">Nombre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Banque</td>
+                    <td>9</td>
+                  </tr>
+                  <tr>
+                    <td>Mutuelle</td>
+                    <td>35</td>
+                  </tr>
+                  <tr>
+                    <td>Organisme d'Etat</td>
+                    <td>24</td>
+                  </tr>
+                  <tr>
+                    <td>Non défini</td>
+                    <td>47</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

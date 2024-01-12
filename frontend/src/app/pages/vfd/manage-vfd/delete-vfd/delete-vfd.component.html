@@ -1,0 +1,15 @@
+<head>
+  <title>Delete Directory</title>
+</head>
+
+<h1>Delete a Directory</h1>
+<label for="objectSelect">Select a directory:</label>
+<select id="objectSelect" [(ngModel)]="selectedDirectory">
+  <option *ngFor="let obj of directories" [value]="obj.dir_path">
+    "{{ obj.alias }}": {{ obj.dir_path }}
+  </option>
+</select>
+<form [formGroup]="deleteDirectoryForm" (ngSubmit)="onSubmit()">
+  <br />
+  <button type="submit">Delete</button>
+</form>
